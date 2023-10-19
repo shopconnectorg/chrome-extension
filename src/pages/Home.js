@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 import { HeaderComponent } from "../components/app-header";
 import { AccountInfo } from "../components/account-info";
 import { CredentialsInfo } from "../components/credentials";
@@ -41,18 +42,33 @@ export const Home = () => {
     await getCredentials().catch(console.error);
   };
 
+  async function getPromotions() {
+    chrome.runtime.getBackgroundPage((page) => {
+      page.getPromotions(response => console.log('response', response));
+    });
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-	  { accounts.length <=0 && <p>Redirecting...</p> }
-	  { accounts.length > 0 && <div>
-        <HeaderComponent />
-        <AccountInfo accounts={accounts} />
-        <CredentialsInfo
-          credentials={credentials}
-          onDeleteCredential={handleCredentialDelete}
-        />
-	  </div>
-	  }
+      {accounts.length <= 0 && <p>Redirecting...</p>}
+      {accounts.length > 0 && (
+        <div>
+          <HeaderComponent />
+          <AccountInfo accounts={accounts} />
+          <Button
+            color="primary"
+            size="large"
+            variant="outlined"
+            onClick={getPromotions}
+          >
+            Get Promotions
+          </Button>
+          <CredentialsInfo
+            credentials={credentials}
+            onDeleteCredential={handleCredentialDelete}
+          />
+        </div>
+      )}
     </div>
   );
 };

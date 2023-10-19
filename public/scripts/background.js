@@ -33,3 +33,15 @@ chrome.runtime.onMessage.addListener(async request => {
     });
   }
 });
+
+window.getPromotions = function(callback) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      {
+        type: "GetPromotions",
+      },
+      callback
+    );
+  });
+}
