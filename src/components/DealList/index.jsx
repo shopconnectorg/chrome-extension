@@ -31,7 +31,7 @@ export default function DealList({ data }) {
                         <span>Expires in {deal.expiry}</span>
                       </div>
                     </div>
-                    <Button className="mr-3">{deal.action}</Button>
+                    <Button>{deal.action}</Button>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent value="item-1">
