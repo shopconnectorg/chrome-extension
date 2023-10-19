@@ -18,7 +18,7 @@ export default function DealList({ data }) {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>
-                  <div className="w-full flex p-4 justify-between items-center">
+                  <div className="w-full flex p-4 justify-between items-center text-left">
                     <div className="flex space-x-3">
                       <img
                         src={deal.image}

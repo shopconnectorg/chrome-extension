@@ -75,16 +75,16 @@ export const Home = () => {
   const dealsMockData2 = [
     {
       image:
-        "https://athome.starbucks.com/sites/default/files/styles/carousel_415x347/public/2022-05/CAH_PDP_Vanilla_1842x1542_Ground_shadow.png.webp?itok=jyAVO26X",
-      title: "Vanta Roast (18oz)",
-      discount: "10%",
-      expiry: "3 days",
-      description: "Bought coffee in the past week",
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/ee361960-9780-4d98-9aa5-f58822aa1789/air-force-1-07-shoes-3RD8Zk.png",
+      title: "Nike Air Force 1 '07",
+      discount: "20%",
+      expiry: "2 weeks",
+      description: "Spent over $500 in the past month",
       action: "Unlock",
     },
     {
-      image: "https://dam.delonghi.com/600x600/assets/223655",
-      title: "Delonghi Magnifica S",
+      image: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dfa68bbe-e102-4e33-9b6e-6763e2a75f19/everyday-cushioned-training-crew-socks-FJSFHQ.png",
+      title: "Nike Everyday Cushioned",
       discount: "$5",
       expiry: "1 week",
       description: "Recurring customer discount",
@@ -98,7 +98,7 @@ export const Home = () => {
       {accounts.length > 0 && (
         <div>
           <AccountInfo accounts={accounts} />
-          <Tabs defaultValue="deals" className="w-[400px]">
+          <Tabs defaultValue="available-deals" className="w-[400px]">
             <TabsList className="ml-3">
               <TabsTrigger value="available-deals">Available Deals</TabsTrigger>
               <TabsTrigger value="other-deals">Other Deals</TabsTrigger>
