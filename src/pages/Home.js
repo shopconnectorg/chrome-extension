@@ -52,6 +52,46 @@ export const Home = () => {
     await getCredentials().catch(console.error);
   };
 
+  const dealsMockData = [
+    {
+      image:
+        "https://athome.starbucks.com/sites/default/files/styles/carousel_415x347/public/2022-05/CAH_PDP_Vanilla_1842x1542_Ground_shadow.png.webp?itok=jyAVO26X",
+      title: "Vanta Roast (18oz)",
+      discount: "10%",
+      expiry: "3 days",
+      description: "Bought coffee in the past week",
+      action: "Apply",
+    },
+    {
+      image: "https://dam.delonghi.com/600x600/assets/223655",
+      title: "Delonghi Magnifica S",
+      discount: "$5",
+      expiry: "1 week",
+      description: "Recurring customer discount",
+      action: "Apply",
+    },
+  ];
+
+  const dealsMockData2 = [
+    {
+      image:
+        "https://athome.starbucks.com/sites/default/files/styles/carousel_415x347/public/2022-05/CAH_PDP_Vanilla_1842x1542_Ground_shadow.png.webp?itok=jyAVO26X",
+      title: "Vanta Roast (18oz)",
+      discount: "10%",
+      expiry: "3 days",
+      description: "Bought coffee in the past week",
+      action: "Unlock",
+    },
+    {
+      image: "https://dam.delonghi.com/600x600/assets/223655",
+      title: "Delonghi Magnifica S",
+      discount: "$5",
+      expiry: "1 week",
+      description: "Recurring customer discount",
+      action: "Unlock",
+    },
+  ];
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {accounts.length <= 0 && <p>Redirecting...</p>}
@@ -60,11 +100,15 @@ export const Home = () => {
           <AccountInfo accounts={accounts} />
           <Tabs defaultValue="deals" className="w-[400px]">
             <TabsList className="ml-3">
-              <TabsTrigger value="deals">Deals</TabsTrigger>
+              <TabsTrigger value="available-deals">Available Deals</TabsTrigger>
+              <TabsTrigger value="other-deals">Other Deals</TabsTrigger>
               <TabsTrigger value="history">History</TabsTrigger>
             </TabsList>
-            <TabsContent value="deals">
-              <DealList />
+            <TabsContent value="available-deals">
+              <DealList data={dealsMockData}/>
+            </TabsContent>
+            <TabsContent value="other-deals">
+              <DealList data={dealsMockData2}/>
             </TabsContent>
             <TabsContent value="history">
               <PurchaseHistory />
