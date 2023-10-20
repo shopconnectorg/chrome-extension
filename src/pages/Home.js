@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { AccountInfo } from "../components/account-info";
-// import { CredentialsInfo } from "../components/credentials";
+import { AccountInfo, OldAccountInfo } from "../components/account-info";
+import { CredentialsInfo } from "../components/credentials";
 import PurchaseHistory from "../components/History";
 import DealList from "../components/DealList";
 import { useNavigate } from "react-router-dom";
@@ -11,14 +11,15 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { Checkbox } from "../components/ui/checkbox";
+import { HeaderComponent } from "../components/app-header";
 
 export const Home = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [credentials, setCredentials] = useState([]);
 
-  // Tab state
-  const [tabIndex, setTabIndex] = useState("1");
+  const [oldUi, setOldUi] = useState(false);
 
   const getCredentials = async () => {
     const { credWallet } = await ExtensionService.getInstance();
@@ -52,6 +53,7 @@ export const Home = () => {
     await getCredentials().catch(console.error);
   };
 
+  // Mock data
   const dealsMockData = [
     {
       image:
@@ -83,7 +85,8 @@ export const Home = () => {
       action: "Unlock",
     },
     {
-      image: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dfa68bbe-e102-4e33-9b6e-6763e2a75f19/everyday-cushioned-training-crew-socks-FJSFHQ.png",
+      image:
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dfa68bbe-e102-4e33-9b6e-6763e2a75f19/everyday-cushioned-training-crew-socks-FJSFHQ.png",
       title: "Nike Everyday Cushioned",
       discount: "$5",
       expiry: "1 week",
@@ -93,33 +96,60 @@ export const Home = () => {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      {accounts.length <= 0 && <p>Redirecting...</p>}
-      {accounts.length > 0 && (
-        <div>
-          <AccountInfo accounts={accounts} />
-          <Tabs defaultValue="available-deals" className="w-[400px]">
-            <TabsList className="ml-3">
-              <TabsTrigger value="available-deals">Available Deals</TabsTrigger>
-              <TabsTrigger value="other-deals">Other Deals</TabsTrigger>
-              <TabsTrigger value="history">History</TabsTrigger>
-            </TabsList>
-            <TabsContent value="available-deals">
-              <DealList data={dealsMockData}/>
-            </TabsContent>
-            <TabsContent value="other-deals">
-              <DealList data={dealsMockData2}/>
-            </TabsContent>
-            <TabsContent value="history">
-              <PurchaseHistory />
-              {/* <CredentialsInfo
+    <>
+      <div className="absolute top-1 right-1 z-50	">
+        <Checkbox checked={oldUi} onCheckedChange={() => setOldUi(!oldUi)} />
+      </div>
+      {oldUi ? (
+        <div
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
+          {accounts.length <= 0 && <p>Redirecting...</p>}
+          {accounts.length > 0 && (
+            <div>
+              <HeaderComponent />
+              <OldAccountInfo accounts={accounts} />
+              <CredentialsInfo
+                credentials={credentials}
+                onDeleteCredential={handleCredentialDelete}
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
+          {accounts.length <= 0 && <p>Redirecting...</p>}
+          {accounts.length > 0 && (
+            <div>
+              <AccountInfo accounts={accounts} />
+              <Tabs defaultValue="available-deals" className="w-[400px]">
+                <TabsList className="ml-3">
+                  <TabsTrigger value="available-deals">
+                    Available Deals
+                  </TabsTrigger>
+                  <TabsTrigger value="other-deals">Other Deals</TabsTrigger>
+                  <TabsTrigger value="history">History</TabsTrigger>
+                </TabsList>
+                <TabsContent value="available-deals">
+                  <DealList data={dealsMockData} />
+                </TabsContent>
+                <TabsContent value="other-deals">
+                  <DealList data={dealsMockData2} />
+                </TabsContent>
+                <TabsContent value="history">
+                  <PurchaseHistory />
+                  {/* <CredentialsInfo
                 credentials={credentials}
                 onDeleteCredential={handleCredentialDelete}
               /> */}
-            </TabsContent>
-          </Tabs>
+                </TabsContent>
+              </Tabs>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
