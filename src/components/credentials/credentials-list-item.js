@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { hideString } from "../../utils";
-import "./styles.css";
+/* import "./styles.css";*/
 
 export const CredentialsListItem = (props) => {
   const { name, issuer, credential } = props;

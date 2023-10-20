@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles-row-details.css";
+/* import "./styles-row-details.css";*/ 
 
 export const CredentialRowDetail = ({ name, value }) => {
   return (

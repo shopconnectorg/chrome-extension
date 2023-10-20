@@ -1,7 +1,7 @@
 import React from "react";
 import { CredentialsListItem } from "./credentials-list-item";
 import { CredentialDetails } from "./credential-details";
-import "./styles.css";
+/*import "./styles.css";*/
 
 export const CredentialsInfo = (props) => {
   const [selectedCredential, setSelectedCredential] = React.useState(null);

@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { CredentialRowDetail } from "./credential-row-details";
-import "./styles.css";
+/* import "./styles.css";*/
 
 export const CredentialDetails = (props) => {
   const { credential } = props;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Home, Welcome, Auth, Auth2, NewAccount } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { ExtensionService } from './services/Extension.service';
-import './App.css';
+/* import './App.css';*/
 import CircularProgress from '@mui/material/CircularProgress';
 
 function App() {
