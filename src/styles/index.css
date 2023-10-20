@@ -2,9 +2,14 @@
 @import 'welcome.styles.css';
 @import 'newAccount.css';
 @import 'authPage.css';
+@import 'globals.css';
 
 *{
   box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 html{
   overflow: hidden;

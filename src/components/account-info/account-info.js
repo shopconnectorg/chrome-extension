@@ -1,12 +1,33 @@
-import React from 'react';
-import { hideString } from "../../utils";
-import './styles.css';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-// import Icon from '@mui/material/Icon';
+import React from "react";
+import LogoImage from "../../assets/logo.png";
+import { Badge } from "../ui/badge";
 import Tooltip from '@mui/material/Tooltip';
-export const AccountInfo = (props)=> {
-	const currentAccount = props.accounts[0]
-	return (
+import { hideString } from "../../utils";
+
+import "./styles.css";
+
+export const AccountInfo = (props) => {
+  const connectedSite = "nike.com";
+
+  return (
+    <div className={"menu-bar"}>
+      <div className={"account-info"}>
+        <Badge variant="secondary" className="flex">
+          <div className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2" />
+          {connectedSite}
+        </Badge>
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <img className="h-6 mr-2" src={LogoImage} alt={"ShopConnect"} />
+        <h3 className="text-lg font-bold">ShopConnect</h3>
+      </div>
+    </div>
+  );
+};
+
+export const OldAccountInfo = (props) => {
+  const currentAccount = props.accounts[0];
+  return (
     <div className={"menu-bar"}>
       {/* <div className={'account-info'}>
 				<button className="connected-status-indicator" onClick={()=>{}}>
@@ -56,5 +77,4 @@ export const AccountInfo = (props)=> {
 			</div> */}
     </div>
   );
-}
-
+};
