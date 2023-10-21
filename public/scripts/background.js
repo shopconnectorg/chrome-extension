@@ -34,26 +34,30 @@ chrome.runtime.onMessage.addListener(async request => {
   }
 });
 
-console.log('loading');
-chrome.runtime.onMessageExternal.addListener(
-  function(request, sender, sendResponse) {
-    chrome.runtime.sendMessage({ action: 'backgroundToPopup', data: request }, function(response) {
+function sendMessageToContentScript(tabId, message) {
+  chrome.tabs.sendMessage(tabId, message);
+}
+
+chrome.runtime.onMessage.addListener(async request => {
+  if (request.action === 'contentToBackground') {
+    console.log(request);
+    // Forward message to React app
+    chrome.runtime.sendMessage({ action: 'backgroundToApp', payload: request.payload }, function(response) {
       if (response) {
         // Handle the response from the background script
         console.log('Response from background:', response);
       }
     });
-  });
+  }
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.action === 'popupToBackground') {
-    // Process the message from the popup
-    const dataFromPopup = request.data;
-    console.log('Message from popup:', dataFromPopup);
-
-    // Perform some action in the background
-    // You can also send a response back to the popup if needed
-    const response = 'Background has processed the message';
-    sendResponse(response);
+  if (request.action === 'appToBackground') {
+    // Identify the tab you want to communicate with
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      if (tabs[0]) {
+        const tabId = tabs[0].id;
+        const message = { action: 'backgroundToContent', data: 'Hello from the background' };
+        sendMessageToContentScript(tabId, { action: 'backgroundToContent', payload: request.payload });
+      }
+    });
   }
 });
