@@ -16,6 +16,22 @@ function App() {
         setError(err.message)
         console.error(err);
       });
+      chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === 'backgroundToPopup') {
+          console.log(request.data);
+          // Process the message, for example, fetching data or performing an action
+          const data = "Data from the background script";
+          
+          // Send the data back to the popup
+          sendResponse({ data });
+        }
+      });
+      // chrome.runtime.sendMessage({ action: 'popupToBackground', data: 'Hello from the popup' }, function(response) {
+      //   if (response) {
+      //     // Handle the response from the background script
+      //     console.log('Response from background:', response);
+      //   }
+      // });
   }, [])
 
   return (
