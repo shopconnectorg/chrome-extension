@@ -33,3 +33,31 @@ chrome.runtime.onMessage.addListener(async request => {
     });
   }
 });
+
+function sendMessageToContentScript(tabId, message) {
+  chrome.tabs.sendMessage(tabId, message);
+}
+
+chrome.runtime.onMessage.addListener(async request => {
+  if (request.action === 'contentToBackground') {
+    console.log(request);
+    // Forward message to React app
+    chrome.runtime.sendMessage({ action: 'backgroundToApp', payload: request.payload }, function(response) {
+      if (response) {
+        // Handle the response from the background script
+        console.log('Response from background:', response);
+      }
+    });
+  }
+
+  if (request.action === 'appToBackground') {
+    // Identify the tab you want to communicate with
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      if (tabs[0]) {
+        const tabId = tabs[0].id;
+        const message = { action: 'backgroundToContent', data: 'Hello from the background' };
+        sendMessageToContentScript(tabId, { action: 'backgroundToContent', payload: request.payload });
+      }
+    });
+  }
+});

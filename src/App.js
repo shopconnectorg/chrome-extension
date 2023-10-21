@@ -4,10 +4,14 @@ import { Routes, Route } from 'react-router-dom';
 import { ExtensionService } from './services/Extension.service';
 import './App.css';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useShopConnect } from './shop-connect/hooks';
 
 function App() {
   const [inited, setInited] = useState(false);
   const [error, setError] = useState('');
+
+  // Initialize ShopConnect
+  useShopConnect();
   
   useEffect(()=>{
     ExtensionService.getInstance()
@@ -16,7 +20,7 @@ function App() {
         setError(err.message)
         console.error(err);
       });
-  }, [])
+  }, []);
 
   return (
     <div className="App">

@@ -3,11 +3,17 @@ import LogoImage from "../../assets/logo.png";
 import { Badge } from "../ui/badge";
 import Tooltip from '@mui/material/Tooltip';
 import { hideString } from "../../utils";
+import { useShopConnect } from "../../shop-connect/hooks";
 
 import "./styles.css";
 
 export const AccountInfo = (props) => {
   const connectedSite = "nike.com";
+
+  const sc = useShopConnect();
+  const onLogoClick = () => {
+    sc.sendMessage();
+  }
 
   return (
     <div className={"menu-bar"}>
@@ -17,7 +23,7 @@ export const AccountInfo = (props) => {
           {connectedSite}
         </Badge>
       </div>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center" onClick={onLogoClick}>
         <img className="h-6 mr-2" src={LogoImage} alt={"ShopConnect"} />
         <h3 className="text-lg font-bold">ShopConnect</h3>
       </div>
