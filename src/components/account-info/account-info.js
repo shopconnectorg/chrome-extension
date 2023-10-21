@@ -3,7 +3,7 @@ import LogoImage from "../../assets/logo.png";
 import { Badge } from "../ui/badge";
 import Tooltip from '@mui/material/Tooltip';
 import { hideString } from "../../utils";
-import { useShopConnect } from "../../shop-connect/hooks";
+import { useShopConnect } from "../../utils/hooks";
 
 import "./styles.css";
 

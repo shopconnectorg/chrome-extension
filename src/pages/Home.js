@@ -13,11 +13,15 @@ import {
 } from "../components/ui/tabs";
 import { Checkbox } from "../components/ui/checkbox";
 import { HeaderComponent } from "../components/app-header";
+import { useShopConnectStore } from "../utils/store";
 
 export const Home = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [credentials, setCredentials] = useState([]);
+
+  // Promotions data
+  const { promotions } = useShopConnectStore((state) => state);
 
   const [oldUi, setOldUi] = useState(false);
 
@@ -27,6 +31,11 @@ export const Home = () => {
     const credentials = await credWallet.list();
     setCredentials(credentials);
   };
+
+  // console log promotions when it changes
+  useEffect(() => {
+    console.log(promotions);
+  }, [promotions]);
 
   useEffect(() => {
     const accounts = JSON.parse(localStorage.getItem("accounts"));

@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ExtensionService } from './services/Extension.service';
 import './App.css';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useShopConnect } from './shop-connect/hooks';
+import { useShopConnect } from './utils/hooks';
 
 function App() {
   const [inited, setInited] = useState(false);
