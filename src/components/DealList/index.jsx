@@ -39,7 +39,7 @@ export default function DealList() {
 
   return (
     <div>
-      {promotions.map((promotion) => (
+      {promotions.map((promotion, index) => (
         <div key={promotion.id}>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
@@ -75,6 +75,7 @@ export default function DealList() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+          {index < promotions.length - 1 && <hr className="my-4" />}
         </div>
       ))}
     </div>
