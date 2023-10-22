@@ -2,35 +2,48 @@ import { useEffect } from "react";
 import { useShopConnectStore } from "./store";
 
 export const useShopConnect = () => {
-  const updatePromotions = useShopConnectStore(
-    (state) => state.updatePromotions
-  );
+  const updatePromotions = useShopConnectStore((state) => state.updatePromotions);
+  const promotions = useShopConnectStore((state) => state.promotions);
+
+  const applyPromotion = (promotionId) => {
+    sendMessage({
+      topic: 'applyPromotion',
+      data: {
+        promotionId: promotionId
+      }
+    });
+  };
+
+  const sendMessage = (payload) => {
+    console.log('Send message', payload);
+    if (typeof(chrome.runtime) !== 'undefined') {
+      chrome.runtime.sendMessage({ action: "appToBackground", payload });
+    }
+  };
 
   useEffect(() => {
     // Receive and process messages coming from the web page
-    chrome.runtime.onMessage.addListener(function (
-      request,
-      sender,
-      sendResponse
-    ) {
-      if (request.action === "backgroundToApp") {
-        console.log(request.payload);
-        updatePromotions(request.payload.data);
-        // Process the message, for example, fetching data or performing an action
-        const data = "Data from the background script";
+    if (typeof(chrome.runtime) !== 'undefined') {
+      chrome.runtime.onMessage.addListener(
+        (request) => {
+          if (request.action === "backgroundToApp") {
+            console.log(request.payload);
+            const { topic, data } = request.payload;
+            if (topic === 'loadPromotions' && promotions.length === 0) {
+              updatePromotions(data);
+            }
+          }
+        }
+      );
+    }
 
-        // Send the data back to the popup
-        sendResponse({ data });
-      }
-    });
+    if (promotions.length === 0) {
+      sendMessage({ topic: 'fetchPromotions' });
+    }
   }, []);
 
-  const sendMessage = () => {
-    console.log("send message");
-    chrome.runtime.sendMessage({ action: "appToBackground", payload: "hello" });
-  };
-
   return {
+    applyPromotion,
     sendMessage,
   };
 };

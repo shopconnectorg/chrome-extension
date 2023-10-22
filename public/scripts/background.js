@@ -55,7 +55,6 @@ chrome.runtime.onMessage.addListener(async request => {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       if (tabs[0]) {
         const tabId = tabs[0].id;
-        const message = { action: 'backgroundToContent', data: 'Hello from the background' };
         sendMessageToContentScript(tabId, { action: 'backgroundToContent', payload: request.payload });
       }
     });

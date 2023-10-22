@@ -8,11 +8,11 @@ import { useShopConnect } from "../../utils/hooks";
 import "./styles.css";
 
 export const AccountInfo = (props) => {
-  const connectedSite = "nike.com";
+  const connectedSite = "localhost";
 
   const sc = useShopConnect();
   const onLogoClick = () => {
-    sc.sendMessage();
+    sc.sendMessage({ topic: 'fetchPromotions' });
   }
 
   return (
