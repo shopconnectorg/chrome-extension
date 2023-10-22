@@ -148,11 +148,7 @@ export const Home = () => {
                   <DealList data={dealsMockData2} />
                 </TabsContent>
                 <TabsContent value="history">
-                  <PurchaseHistory />
-                  {/* <CredentialsInfo
-                credentials={credentials}
-                onDeleteCredential={handleCredentialDelete}
-              /> */}
+                  <PurchaseHistory credentials={credentials} />
                 </TabsContent>
               </Tabs>
             </div>
