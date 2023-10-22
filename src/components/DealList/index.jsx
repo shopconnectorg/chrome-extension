@@ -12,12 +12,29 @@ import { useShopConnect } from "../../utils/hooks";
 
 export default function DealList() {
   const promotions = useShopConnectStore((state) => state.promotions);
+  const applyingPromotion = useShopConnectStore((state) => state.applyingPromotion);
+  const promotionApplied = useShopConnectStore((state) => state.promotionApplied);
   const sc = useShopConnect();
 
   const applyPromotion = (event, promotionId) => {
     event.preventDefault();
     event.stopPropagation();
     sc.applyPromotion(promotionId);
+  }
+
+  const promotionButton = (promotionId) => {
+    if (promotionApplied === promotionId) {
+      if (applyingPromotion) return (
+        <span>Applying...</span>
+      );
+      return (
+        <span>Applied</span>
+      );
+    }
+
+    return (
+      <Button onClick={(event) => applyPromotion(event, promotionId)}>Apply</Button>
+    );
   }
 
   return (
@@ -40,7 +57,7 @@ export default function DealList() {
                       <span>Expires in 7 days</span>
                     </div>
                   </div>
-                  <Button onClick={(event) => applyPromotion(event, promotion.id)}>Apply</Button>
+                  {promotionButton(promotion.id)}
                 </div>
               </AccordionTrigger>
               <AccordionContent value="item-1">

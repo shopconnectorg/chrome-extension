@@ -4,8 +4,13 @@ import { useShopConnectStore } from "./store";
 export const useShopConnect = () => {
   const updatePromotions = useShopConnectStore((state) => state.updatePromotions);
   const promotions = useShopConnectStore((state) => state.promotions);
+  const updateApplyingPromotion = useShopConnectStore((state) => state.updateApplyingPromotion);
+  const updatePromotionApplied = useShopConnectStore((state) => state.updatePromotionApplied);
 
   const applyPromotion = (promotionId) => {
+    updateApplyingPromotion(true);
+    updatePromotionApplied(promotionId);
+
     sendMessage({
       topic: 'applyPromotion',
       data: {
@@ -29,8 +34,13 @@ export const useShopConnect = () => {
           if (request.action === "backgroundToApp") {
             console.log(request.payload);
             const { topic, data } = request.payload;
+
             if (topic === 'loadPromotions' && promotions.length === 0) {
               updatePromotions(data);
+            }
+
+            if (topic === 'confirmPromotion') {
+              updateApplyingPromotion(false);
             }
           }
         }
