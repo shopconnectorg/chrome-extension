@@ -30,7 +30,8 @@
     "shadcn-ui": "^0.4.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.4.4"
   },
   "scripts": {
     "start": "react-scripts start",
