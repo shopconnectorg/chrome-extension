@@ -8,18 +8,9 @@ export async function approveMethod(msgBytes) {
   const { packageMgr, proofService, credWallet } = await ExtensionService.getInstance();
   const authHandler = new AuthHandler(packageMgr, proofService, credWallet);
   const did = DID.parse(LocalStorageServices.getActiveAccountDid());
-  const authRes = await authHandler.handleAuthorizationRequest(did, msgBytes);
-  console.log(authRes);
-  const config = {
-    headers: {
-      'Content-Type': 'text/plain'
-    },
-    responseType: 'json'
-  };
-  return await axios
-    .post(`${authRes.authRequest.body.callbackUrl}`, authRes.token, config)
-    .then((response) => response)
-    .catch((error) => error.toJSON());
+  const authResponse = await authHandler.handleAuthorizationRequest(did, msgBytes);
+  console.log('authResponse', authResponse);
+  return authResponse;
 }
 
 export async function receiveMethod(msgBytes) {

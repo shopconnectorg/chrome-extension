@@ -16,14 +16,14 @@ export default function DealList() {
   const promotionApplied = useShopConnectStore((state) => state.promotionApplied);
   const sc = useShopConnect();
 
-  const applyPromotion = (event, promotionId) => {
+  const applyPromotion = (event, promotion) => {
     event.preventDefault();
     event.stopPropagation();
-    sc.applyPromotion(promotionId);
+    sc.applyPromotion(promotion);
   }
 
-  const promotionButton = (promotionId) => {
-    if (promotionApplied === promotionId) {
+  const promotionButton = (promotion) => {
+    if (promotionApplied === promotion.id) {
       if (applyingPromotion) return (
         <span>Applying...</span>
       );
@@ -33,7 +33,7 @@ export default function DealList() {
     }
 
     return (
-      <Button onClick={(event) => applyPromotion(event, promotionId)}>Apply</Button>
+      <Button onClick={(event) => applyPromotion(event, promotion)}>Apply</Button>
     );
   }
 
@@ -57,7 +57,7 @@ export default function DealList() {
                       <span>Expires in 7 days</span>
                     </div>
                   </div>
-                  {promotionButton(promotion.id)}
+                  {promotionButton(promotion)}
                 </div>
               </AccordionTrigger>
               <AccordionContent value="item-1">

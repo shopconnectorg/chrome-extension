@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useShopConnectStore } from "./store";
+import { approveMethod } from '../services/Approve.service';
 
 export const useShopConnect = () => {
   const updatePromotions = useShopConnectStore((state) => state.updatePromotions);
@@ -7,14 +8,18 @@ export const useShopConnect = () => {
   const updateApplyingPromotion = useShopConnectStore((state) => state.updateApplyingPromotion);
   const updatePromotionApplied = useShopConnectStore((state) => state.updatePromotionApplied);
 
-  const applyPromotion = (promotionId) => {
+  const applyPromotion = async (promotion) => {
     updateApplyingPromotion(true);
-    updatePromotionApplied(promotionId);
-
+    updatePromotionApplied(promotion.id);
+    const msgBytes = new TextEncoder().encode(
+      JSON.stringify(promotions.authRequest)
+    );
+    const authResponse = await approveMethod(msgBytes);
     sendMessage({
       topic: 'applyPromotion',
       data: {
-        promotionId: promotionId
+        promotionId: promotion.id,
+        authResponse,
       }
     });
   };
