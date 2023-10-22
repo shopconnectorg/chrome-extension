@@ -5,6 +5,14 @@ import { Button } from "../ui/button";
 export default function PurchaseHistory() {
   const mockData = [
     {
+      image: "https://m.media-amazon.com/images/I/61MsT0AQSrL._AC_SL1500_.jpg",
+      date: "2023-10-22",
+      site: "localhost",
+      item: "Premium Coffee Maker",
+      price: "$1000",
+      categories: ["Appliances", "Coffee"],
+    },
+    {
       image: "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bfc04b0f-32d9-48a9-b4b7-7acb7fbcb54b/air-max-90-shoes-bnz7pN.png",
       date: "2023-10-17",
       site: "nike.com",
