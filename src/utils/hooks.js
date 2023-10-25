@@ -12,7 +12,7 @@ export const useShopConnect = () => {
     updateApplyingPromotion(true);
     updatePromotionApplied(promotion.id);
     const msgBytes = new TextEncoder().encode(
-      JSON.stringify(promotions.authRequest)
+      JSON.stringify(promotion.authRequest)
     );
     const authResponse = await approveMethod(msgBytes);
     sendMessage({

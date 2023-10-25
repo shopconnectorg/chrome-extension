@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
@@ -11,15 +12,21 @@ import { useShopConnectStore } from '../../utils/store';
 import { useShopConnect } from "../../utils/hooks";
 
 export default function DealList() {
+  const [error, setError] = useState(null);
   const promotions = useShopConnectStore((state) => state.promotions);
   const applyingPromotion = useShopConnectStore((state) => state.applyingPromotion);
   const promotionApplied = useShopConnectStore((state) => state.promotionApplied);
   const sc = useShopConnect();
 
-  const applyPromotion = (event, promotion) => {
+  const applyPromotion = async (event, promotion) => {
     event.preventDefault();
     event.stopPropagation();
-    sc.applyPromotion(promotion);
+    setError(null);
+    try {
+      await sc.applyPromotion(promotion);
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   const promotionButton = (promotion) => {
@@ -39,6 +46,7 @@ export default function DealList() {
 
   return (
     <div>
+      {error && <div style={{ padding: "20px", color: "red" }}>{error}</div>}
       {promotions.map((promotion, index) => (
         <div key={promotion.id}>
           <Accordion type="single" collapsible>
