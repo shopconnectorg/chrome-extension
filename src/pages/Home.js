@@ -14,15 +14,14 @@ import {
 import { Checkbox } from "../components/ui/checkbox";
 import { HeaderComponent } from "../components/app-header";
 import { useShopConnectStore } from "../utils/store";
+import { useShopConnect } from "../utils/hooks";
 
 export const Home = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [credentials, setCredentials] = useState([]);
-
-  // Promotions data
+  const { sendMessage } = useShopConnect();
   const { promotions } = useShopConnectStore((state) => state);
-
   const [oldUi, setOldUi] = useState(false);
 
   const getCredentials = async () => {
@@ -61,6 +60,36 @@ export const Home = () => {
     await credWallet.remove(credentialId);
     await getCredentials().catch(console.error);
   };
+
+  useEffect(() => {
+    if (accounts.length > 0) {
+      sendMessage({
+        topic: "ready",
+        data: { did: accounts[0].did },
+      });
+    }
+  }, [accounts]);
+
+  const dealsMockData2 = [
+    {
+      image:
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/ee361960-9780-4d98-9aa5-f58822aa1789/air-force-1-07-shoes-3RD8Zk.png",
+      title: "Nike Air Force 1 '07",
+      discount: "20%",
+      expiry: "2 weeks",
+      description: "Spent over $500 in the past month",
+      action: "Unlock",
+    },
+    {
+      image:
+        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dfa68bbe-e102-4e33-9b6e-6763e2a75f19/everyday-cushioned-training-crew-socks-FJSFHQ.png",
+      title: "Nike Everyday Cushioned",
+      discount: "$5",
+      expiry: "1 week",
+      description: "Recurring customer discount",
+      action: "Unlock",
+    },
+  ];
 
   return (
     <>
