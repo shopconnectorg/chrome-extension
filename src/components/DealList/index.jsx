@@ -53,16 +53,16 @@ export default function DealList() {
             <AccordionItem value="item-1">
               <AccordionTrigger>
                 <div className="w-full flex p-4 justify-between items-center text-left">
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-4 items-center">
                     <img
                       src={promotion.image}
                       alt="deal"
                       className="w-20 h-20 rounded-lg"
                     />
-                    <div className="flex flex-col items-start	space-y-1">
+                    <div className="flex flex-col items-start	space-y-1 pr-4">
                       <Badge variant="outlined">{promotion.discountType === 'percentage' ? `${promotion.discount}%`: `$${promotion.discount}`} OFF</Badge>
                       <span className="font-bold">{promotion.title}</span>
-                      <span>Expires in 7 days</span>
+                      <span className="text-sm">Expires in 7 days</span>
                     </div>
                   </div>
                   {promotionButton(promotion)}
