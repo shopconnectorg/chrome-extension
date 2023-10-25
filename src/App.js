@@ -1,40 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Home, Welcome, Auth, Auth2, NewAccount } from './pages';
-import { Routes, Route } from 'react-router-dom';
-import { ExtensionService } from './services/Extension.service';
-import './App.css';
-import CircularProgress from '@mui/material/CircularProgress';
-import { useShopConnect } from './utils/hooks';
+import React, { useEffect, useState } from "react";
+import { Home, Welcome, Auth, Auth2, NewAccount } from "./pages";
+import { Routes, Route } from "react-router-dom";
+import { ExtensionService } from "./services/Extension.service";
+import "./App.css";
+import Logo from "./assets/logo.png";
+import { useShopConnect } from "./utils/hooks";
 
 function App() {
   const [inited, setInited] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Initialize ShopConnect
   useShopConnect();
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     ExtensionService.getInstance()
       .then(() => setInited(true))
-      .catch(err => {
-        setError(err.message)
+      .catch((err) => {
+        setError(err.message);
         console.error(err);
       });
   }, []);
 
   return (
     <div className="App">
-      {!inited && error && <div>
-        <h6>{error}</h6>
-      </div>}
-      { inited && !error ? (<Routes>
-        <Route path={'/'} element={<Home/>}/>
-        <Route path={'/welcome'} element={<Welcome/>} />
-        <Route path={'/auth'} element={<Auth/>} />
-        <Route path={'/newAccount'} element={<NewAccount/>} />
-        <Route path={'/auth2'} element={<Auth2/>} />
-      </Routes>) : (<CircularProgress/>)
-      }
+      {!inited && error && (
+        <div>
+          <h6>{error}</h6>
+        </div>
+      )}
+      {inited && !error ? (
+        <Routes>
+          <Route path={"/"} element={<Home />} />
+          <Route path={"/welcome"} element={<Welcome />} />
+          <Route path={"/auth"} element={<Auth />} />
+          <Route path={"/newAccount"} element={<NewAccount />} />
+          <Route path={"/auth2"} element={<Auth2 />} />
+        </Routes>
+      ) : (
+        <div className="w-full h-full flex items-center justify-center">
+          <img src={Logo} alt="Loading" className="w-20 h-20 animate-bounce" />
+        </div>
+      )}
     </div>
   );
 }
