@@ -28,7 +28,7 @@ export default function PurchaseHistory(props) {
                           {purchase.issuanceDate.split("T")[0]}
                         </span>
                         <span className="font-bold">{data.item.name}</span>
-                        <span>${data.price}</span>
+                        <span>${data.price / 100}</span>
                         <div className="flex space-x-1">
                           <Badge variant="outlined">{data.item.category}</Badge>
                         </div>
