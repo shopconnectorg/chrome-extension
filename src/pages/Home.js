@@ -24,6 +24,7 @@ export const Home = () => {
   const { promotions } = useShopConnectStore((state) => state);
   const [oldUi, setOldUi] = useState(false);
   const [availablePromotions, setAvailablePromotions] = useState([]);
+  const [otherPromotions, setOtherPromotions] = useState([]);
 
   const getCredentials = async () => {
     const { credWallet } = await ExtensionService.getInstance();
@@ -32,20 +33,27 @@ export const Home = () => {
     setCredentials(credentials);
   };
 
-  useEffect(() => {
-    console.log(promotions);
-    (async () => {
-      const { credWallet } = await ExtensionService.getInstance();
-      const available = [];
-      for (const promotion of promotions) {
-        const [{ query }] = promotion.authRequest.body.scope;
-        const credentials = credWallet.findByQuery(query);
-        if (credentials.length > 0) {
-          availablePromotions.push(promotion);
-        }
+  const filterPromotions = async (promotions) => {
+    const { credWallet } = await ExtensionService.getInstance();
+    const available = [];
+    const other = [];
+    for await (const promotion of promotions) {
+      const [{ query }] = promotion.authRequest.body.scope;
+      const credentials = await credWallet.findByQuery(query);
+      console.log('Credentials', credentials);
+      if (credentials.length > 0) {
+        available.push(promotion);
+      } else {
+        other.push(promotion);
       }
-      setAvailablePromotions(available);
-    })().catch(console.error);
+    }
+    setAvailablePromotions(available);
+    setOtherPromotions(other);
+  }
+
+  useEffect(() => {
+    console.log('All Promotions', promotions);
+    filterPromotions(promotions).catch(console.error);
   }, [promotions]);
 
   useEffect(() => {
@@ -64,7 +72,6 @@ export const Home = () => {
       }
     });
     getCredentials().catch(console.error);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCredentialDelete = async (credentialId) => {
@@ -73,13 +80,10 @@ export const Home = () => {
     await getCredentials().catch(console.error);
   };
 
-  const getOtherPromotions = () => {
-    return promotions.filter((promo) => !availablePromotions.includes(promo));
-  }
-
   useEffect(() => {
     if (accounts.length > 0) {
-      fetchPromotions(accounts[0].did);
+      const [{ did }] = accounts;
+      fetchPromotions(did);
     }
   }, [accounts]);
 
@@ -121,10 +125,10 @@ export const Home = () => {
                   <TabsTrigger value="history">History</TabsTrigger>
                 </TabsList>
                 <TabsContent value="available-deals">
-                  <DealList promotions={availablePromotions} />
+                  <DealList promotions={availablePromotions} applicable={true} />
                 </TabsContent>
                 <TabsContent value="other-deals">
-                  <DealList promotions={getOtherPromotions()} />
+                  <DealList promotions={otherPromotions} />
                 </TabsContent>
                 <TabsContent value="history">
                   <PurchaseHistory credentials={credentials} />

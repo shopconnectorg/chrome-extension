@@ -11,14 +11,9 @@ import { Checkbox } from "../ui/checkbox";
 import { useShopConnectStore } from "../../utils/store";
 import { useShopConnect } from "../../utils/hooks";
 
-export default function DealList({ promotions }) {
+export default function DealList({ promotions, applicable }) {
   const [error, setError] = useState(null);
-  const applyingPromotion = useShopConnectStore(
-    (state) => state.applyingPromotion
-  );
-  const promotionApplied = useShopConnectStore(
-    (state) => state.promotionApplied
-  );
+  const { applyingPromotion, promotionApplied } = useShopConnectStore((state) => state);
   const sc = useShopConnect();
 
   const applyPromotion = async (event, promotion) => {
@@ -47,6 +42,7 @@ export default function DealList({ promotions }) {
 
   return (
     <>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
       {promotions.length > 0 ? (
         <div>
           {promotions.map((promotion, index) => (
@@ -72,7 +68,7 @@ export default function DealList({ promotions }) {
                           <span className="text-sm">Expires in 7 days</span>
                         </div>
                       </div>
-                      {promotionButton(promotion)}
+                      {applicable && promotionButton(promotion)}
                     </div>
                   </AccordionTrigger>
                   <AccordionContent value="item-1">
