@@ -4,12 +4,14 @@ import { Badge } from "../ui/badge";
 import Tooltip from '@mui/material/Tooltip';
 import { hideString } from "../../utils";
 import { useShopConnect } from "../../utils/hooks";
+import { useShopConnectStore } from "../../utils/store";
 
 import "./styles.css";
 
 export const AccountInfo = (props) => {
   const connectedSite = "localhost";
   const currentAccount = props.accounts[0];
+  const promotions = useShopConnectStore((state) => state.promotions);
 
   const { fetchPromotions } = useShopConnect();
   const onLogoClick = () => {
@@ -20,7 +22,7 @@ export const AccountInfo = (props) => {
     <div className={"menu-bar"}>
       <div className={"account-info"}>
         <Badge variant="secondary" className="flex">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2" />
+          <div className={`w-1.5 h-1.5 rounded-full ${promotions.length > 0 ? "bg-green-500" : "bg-red-500"} mr-2`} />
           {connectedSite}
         </Badge>
       </div>
