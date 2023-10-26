@@ -79,7 +79,7 @@ export default function DealList({ promotions, applicable }) {
                           htmlFor="terms"
                           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
-                          {promotion.requirement}
+                          {promotion.requirements}
                         </label>
                       </div>
                     </div>
