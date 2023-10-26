@@ -21,12 +21,12 @@ export const useShopConnect = () => {
     const msgBytes = new TextEncoder().encode(
       JSON.stringify(promotion.authRequest)
     );
-    const authResponse = await approveMethod(msgBytes);
+    const { token } = await approveMethod(msgBytes);
     sendMessage({
       topic: 'applyPromotion',
       data: {
         promotionId: promotion.id,
-        authResponse,
+        token,
       }
     });
   };
@@ -53,6 +53,7 @@ export const useShopConnect = () => {
 
             if (topic === 'confirmPromotion') {
               updateApplyingPromotion(false);
+              window.close();
             }
           }
         }

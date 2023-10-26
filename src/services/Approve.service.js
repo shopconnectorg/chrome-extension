@@ -8,9 +8,9 @@ export async function approveMethod(msgBytes) {
   const { packageMgr, proofService, credWallet } = await ExtensionService.getInstance();
   const authHandler = new AuthHandler(packageMgr, proofService, credWallet);
   const did = DID.parse(LocalStorageServices.getActiveAccountDid());
-  const authResponse = await authHandler.handleAuthorizationRequest(did, msgBytes);
-  console.log('authResponse', authResponse);
-  return authResponse;
+  const result = await authHandler.handleAuthorizationRequest(did, msgBytes);
+  console.log("Authentication result", result);
+  return result;
 }
 
 export async function receiveMethod(msgBytes) {

@@ -31,14 +31,17 @@ export const Auth = () => {
   const { search, pathname } = useLocation();
   const dataType = useQuery("type");
   const payload = useQuery("payload");
+  const purchase = useQuery("purchase");
   const [error, setError] = useState(null);
   const [requestType, setRequestType] = useState("");
   const [data, setData] = useState(null);
+  const [purchaseData, setPurchaseData] = useState(null);
   const [msgBytes, setMsgBytes] = useState(null); // [msgBytes, setMsgBytes
   const [isReady, setIsReady] = useState(true);
 
   console.log("dataType", dataType);
   console.log("payload", payload);
+  console.log("purchase", purchase);
 
   const detectRequest = (unpackedMessage) => {
     const { type, body } = unpackedMessage;
@@ -73,18 +76,26 @@ export const Auth = () => {
         console.log("unpackedMessage", unpackedMessage);
         setData(unpackedMessage);
         setRequestType(detectRequest(unpackedMessage));
+        if (purchase) {
+          const pd = JSON.parse(atob(purchase));
+          console.log('Purchase data', pd); 
+          setPurchaseData(pd);
+        }
       }
     })().catch(console.error);
   }, []);
 
   async function handleClickReject() {
-    navigate("/");
+    // navigate("/");
+    window.close();
   }
   async function handleClickApprove() {
     setIsReady(false);
     const result = await approveMethod(msgBytes);
-    if (result.code !== "ERR_NETWORK") navigate("/");
-    else {
+    if (result.code !== "ERR_NETWORK") {
+      // navigate("/");
+      window.close();
+    } else {
       setError(result.message);
       setIsReady(true);
     }
@@ -93,7 +104,8 @@ export const Auth = () => {
     setIsReady(false);
     try {
       await proofMethod(msgBytes);
-      navigate("/");
+      // navigate("/");
+      window.close();
     } catch (error) {
       console.log(error.message);
       setError(error.message);
@@ -107,8 +119,10 @@ export const Auth = () => {
     let result = await receiveMethod(msgBytes).catch((error) =>
       setError(error)
     );
-    if (result === "SAVED") navigate("/");
-    else {
+    if (result === "SAVED") {
+      // navigate("/");
+      window.close();
+    } else {
       setError(result.message);
       setIsReady(true);
     }
@@ -244,16 +258,18 @@ export const Auth = () => {
                 <div className="w-full flex p-4 mt-10 justify-between items-center text-left border-2 border-black rounded-sm">
                   <div className="flex space-x-3">
                     <img
-                      src={data.body.item.image}
-                      alt={data.body.item.name}
+                      src={purchaseData.item.image}
+                      alt={purchaseData.item.name}
                       className="w-20 h-20 rounded-lg"
                     />
                     <div className="flex flex-col items-start	space-y-1">
-                      <span className="font-bold">{data.body.item.name}</span>
-                      <span>${data.body.price}</span>
+                      <span className="font-bold">
+                        {purchaseData.item.name}
+                      </span>
+                      <span>${purchaseData.finalUnitPrice}</span>
                       <div className="flex space-x-1">
                         <Badge variant="outlined">
-                          {data.body.item.category}
+                          {purchaseData.item.category}
                         </Badge>
                       </div>
                     </div>
