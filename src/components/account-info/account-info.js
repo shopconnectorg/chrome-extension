@@ -9,10 +9,11 @@ import "./styles.css";
 
 export const AccountInfo = (props) => {
   const connectedSite = "localhost";
+  const currentAccount = props.accounts[0];
 
-  const sc = useShopConnect();
+  const { fetchPromotions } = useShopConnect();
   const onLogoClick = () => {
-    sc.sendMessage({ topic: 'fetchPromotions' });
+    fetchPromotions(currentAccount.did);
   }
 
   return (
@@ -24,7 +25,7 @@ export const AccountInfo = (props) => {
         </Badge>
       </div>
       <div className="absolute inset-0 flex items-center justify-center" onClick={onLogoClick}>
-        <img className="h-6 mr-2" src={LogoImage} alt={"ShopConnect"} />
+        <img className="h-6 mr-2" src={LogoImage} alt="ShopConnect" />
         <h3 className="text-lg font-bold">ShopConnect</h3>
       </div>
     </div>

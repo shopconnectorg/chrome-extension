@@ -20,9 +20,10 @@ export const Home = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [credentials, setCredentials] = useState([]);
-  const { sendMessage } = useShopConnect();
+  const { fetchPromotions } = useShopConnect();
   const { promotions } = useShopConnectStore((state) => state);
   const [oldUi, setOldUi] = useState(false);
+  const [availablePromotions, setAvailablePromotions] = useState([]);
 
   const getCredentials = async () => {
     const { credWallet } = await ExtensionService.getInstance();
@@ -31,9 +32,20 @@ export const Home = () => {
     setCredentials(credentials);
   };
 
-  // console log promotions when it changes
   useEffect(() => {
     console.log(promotions);
+    (async () => {
+      const { credWallet } = await ExtensionService.getInstance();
+      const available = [];
+      for (const promotion of promotions) {
+        const [{ query }] = promotion.authRequest.body.scope;
+        const credentials = credWallet.findByQuery(query);
+        if (credentials.length > 0) {
+          availablePromotions.push(promotion);
+        }
+      }
+      setAvailablePromotions(available);
+    })().catch(console.error);
   }, [promotions]);
 
   useEffect(() => {
@@ -61,35 +73,15 @@ export const Home = () => {
     await getCredentials().catch(console.error);
   };
 
+  const getOtherPromotions = () => {
+    return promotions.filter((promo) => !availablePromotions.includes(promo));
+  }
+
   useEffect(() => {
     if (accounts.length > 0) {
-      sendMessage({
-        topic: "ready",
-        data: { did: accounts[0].did },
-      });
+      fetchPromotions(accounts[0].did);
     }
   }, [accounts]);
-
-  const dealsMockData2 = [
-    {
-      image:
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/ee361960-9780-4d98-9aa5-f58822aa1789/air-force-1-07-shoes-3RD8Zk.png",
-      title: "Nike Air Force 1 '07",
-      discount: "20%",
-      expiry: "2 weeks",
-      description: "Spent over $500 in the past month",
-      action: "Unlock",
-    },
-    {
-      image:
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dfa68bbe-e102-4e33-9b6e-6763e2a75f19/everyday-cushioned-training-crew-socks-FJSFHQ.png",
-      title: "Nike Everyday Cushioned",
-      discount: "$5",
-      expiry: "1 week",
-      description: "Recurring customer discount",
-      action: "Unlock",
-    },
-  ];
 
   return (
     <>
@@ -129,10 +121,10 @@ export const Home = () => {
                   <TabsTrigger value="history">History</TabsTrigger>
                 </TabsList>
                 <TabsContent value="available-deals">
-                  <DealList />
+                  <DealList promotions={availablePromotions} />
                 </TabsContent>
                 <TabsContent value="other-deals">
-                  <DealList />
+                  <DealList promotions={getOtherPromotions()} />
                 </TabsContent>
                 <TabsContent value="history">
                   <PurchaseHistory credentials={credentials} />

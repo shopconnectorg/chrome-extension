@@ -11,9 +11,8 @@ import { Checkbox } from "../ui/checkbox";
 import { useShopConnectStore } from "../../utils/store";
 import { useShopConnect } from "../../utils/hooks";
 
-export default function DealList() {
+export default function DealList({ promotions }) {
   const [error, setError] = useState(null);
-  const promotions = useShopConnectStore((state) => state.promotions);
   const applyingPromotion = useShopConnectStore(
     (state) => state.applyingPromotion
   );
