@@ -175,16 +175,6 @@ export const Auth = () => {
                 </div>
               </div>
               <div className="w-full">
-                <div className="flex items-center space-x-2">
-                  {/* Not functional currently */}
-                  <Checkbox id="auto-approve" />
-                  <label
-                    htmlFor="auto-approve"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Enable auto-approve from now on
-                  </label>
-                </div>
                 <div className="flex flex-row justify-between	space-x-3 mt-3">
                   <Button
                     className="w-full"
@@ -239,7 +229,7 @@ export const Auth = () => {
             <div className="flex flex-col items-center justify-between h-full pt-16 px-3 pb-3 text-center">
               <div className="flex flex-col items-center">
                 <span className="max-w-xs text-xl">
-                  This site wants to issue a receipt for your purchase:
+                  This site wants to issue a proof of your purchase:
                 </span>
                 <div className="w-full flex p-4 mt-10 justify-between items-center text-left border-2 border-black rounded-sm">
                   <div className="flex space-x-3">
@@ -261,16 +251,6 @@ export const Auth = () => {
                 </div>
               </div>
               <div className="w-full">
-                <div className="flex items-center space-x-2">
-                  {/* Not functional currently */}
-                  <Checkbox id="auto-approve" />
-                  <label
-                    htmlFor="auto-approve"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    Enable auto-approve from now on
-                  </label>
-                </div>
                 <div className="flex flex-row justify-between	space-x-3 mt-3">
                   <Button
                     className="w-full"
