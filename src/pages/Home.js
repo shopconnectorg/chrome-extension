@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { AccountInfo, OldAccountInfo } from "../components/account-info";
-import { CredentialsInfo } from "../components/credentials";
+import { useNavigate } from "react-router-dom";
+import { AccountInfo } from "../components/account-info";
 import PurchaseHistory from "../components/History";
 import DealList from "../components/DealList";
-import { useNavigate } from "react-router-dom";
 import { ExtensionService } from "../services/Extension.service";
 import {
   Tabs,
@@ -12,9 +11,9 @@ import {
   TabsTrigger,
 } from "../components/ui/tabs";
 import { Checkbox } from "../components/ui/checkbox";
-import { HeaderComponent } from "../components/app-header";
 import { useShopConnectStore } from "../utils/store";
 import { useShopConnect } from "../utils/hooks";
+import { OldHome } from './old/Home';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -74,12 +73,6 @@ export const Home = () => {
     getCredentials().catch(console.error);
   }, []);
 
-  const handleCredentialDelete = async (credentialId) => {
-    const { credWallet } = await ExtensionService.getInstance();
-    await credWallet.remove(credentialId);
-    await getCredentials().catch(console.error);
-  };
-
   useEffect(() => {
     if (accounts.length > 0) {
       const [{ did }] = accounts;
@@ -93,21 +86,7 @@ export const Home = () => {
         <Checkbox checked={oldUi} onCheckedChange={() => setOldUi(!oldUi)} />
       </div>
       {oldUi ? (
-        <div
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
-        >
-          {accounts.length <= 0 && <p>Redirecting...</p>}
-          {accounts.length > 0 && (
-            <div>
-              <HeaderComponent />
-              <OldAccountInfo accounts={accounts} />
-              <CredentialsInfo
-                credentials={credentials}
-                onDeleteCredential={handleCredentialDelete}
-              />
-            </div>
-          )}
-        </div>
+        <OldHome />
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
