@@ -8,6 +8,7 @@ import Logo from "../assets/logo.png";
 import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 import { OldAuth } from "./old/Auth";
+import { Badge } from "../components/ui/badge";
 
 const RequestType = {
   Auth: "auth",
@@ -35,7 +36,6 @@ export const Auth = () => {
   const [data, setData] = useState(null);
   const [msgBytes, setMsgBytes] = useState(null); // [msgBytes, setMsgBytes
   const [isReady, setIsReady] = useState(true);
-
 
   console.log("dataType", dataType);
   console.log("payload", payload);
@@ -169,7 +169,6 @@ export const Auth = () => {
                   account:
                 </span>
               </div>
-
               <div className="flex flex-col items-center justify-center h-full py-4">
                 <div className="w-full px-5 py-2 border-2	border-black rounded-full">
                   {data.body.reason}
@@ -240,8 +239,26 @@ export const Auth = () => {
             <div className="flex flex-col items-center justify-between h-full pt-16 px-3 pb-3 text-center">
               <div className="flex flex-col items-center">
                 <span className="max-w-xs text-xl">
-                  This site wants to issue a receipt for your purchase
+                  This site wants to issue a receipt for your purchase:
                 </span>
+                <div className="w-full flex p-4 mt-10 justify-between items-center text-left border-2 border-black rounded-sm">
+                  <div className="flex space-x-3">
+                    <img
+                      src={data.body.item.image}
+                      alt={data.body.item.name}
+                      className="w-20 h-20 rounded-lg"
+                    />
+                    <div className="flex flex-col items-start	space-y-1">
+                      <span className="font-bold">{data.body.item.name}</span>
+                      <span>${data.body.price}</span>
+                      <div className="flex space-x-1">
+                        <Badge variant="outlined">
+                          {data.body.item.category}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="w-full">
                 <div className="flex items-center space-x-2">
@@ -275,6 +292,9 @@ export const Auth = () => {
           )}
         </div>
       )}
+      <div className={"error"}>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
     </>
   );
 };
