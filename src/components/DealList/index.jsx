@@ -37,7 +37,7 @@ export default function DealList({ promotions, applicable }) {
         color="primary"
         variant="contained"
         onClick={(event) => applyPromotion(event, promotion)}
-        loading={applyingPromotion}
+        loading={applyingPromotion && promotionApplied === promotion.id}
         size="medium"
       >
         Apply
@@ -89,7 +89,7 @@ export default function DealList({ promotions, applicable }) {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-              {index < promotions.length - 1 && <hr className="my-4" />}
+              {index < promotions.length && <hr className="my-4" />}
             </div>
           ))}
         </div>

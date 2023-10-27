@@ -248,11 +248,13 @@ export const Auth = () => {
                 </span>
                 <div className="w-full flex p-4 mt-10 justify-between items-center text-left border-2 border-black rounded-sm">
                   <div className="flex space-x-3">
-                    <img
-                      src={purchaseData.item.image}
-                      alt={purchaseData.item.name}
-                      className="w-20 h-20 rounded-lg"
-                    />
+                    <div className="w-20 h-20">
+                      <img
+                        src={purchaseData.item.image}
+                        alt={purchaseData.item.name}
+                        className="w-20 h-20 object-contain"
+                      />
+                    </div>
                     <div className="flex flex-col items-start	space-y-1">
                       <span className="font-bold">
                         {purchaseData.item.name}
@@ -277,6 +279,7 @@ export const Auth = () => {
                     Reject
                   </Button>
                   <Button
+                    color="primary"
                     className="w-full"
                     disabled={!isReady}
                     onClick={handleClickReceive}
