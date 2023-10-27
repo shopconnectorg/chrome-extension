@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Accordion,
   AccordionContent,
@@ -28,15 +28,20 @@ export default function DealList({ promotions, applicable }) {
   }
 
   const promotionButton = (promotion) => {
-    if (promotionApplied === promotion.id) {
-      if (applyingPromotion) return <span>Applying...</span>;
+    if (promotionApplied === promotion.id && !applyingPromotion) {
       return <span>Applied</span>;
     }
 
     return (
-      <Button onClick={(event) => applyPromotion(event, promotion)}>
+      <LoadingButton
+        color="primary"
+        variant="contained"
+        onClick={(event) => applyPromotion(event, promotion)}
+        loading={applyingPromotion}
+        size="medium"
+      >
         Apply
-      </Button>
+      </LoadingButton>
     );
   };
 
@@ -52,11 +57,9 @@ export default function DealList({ promotions, applicable }) {
                   <AccordionTrigger>
                     <div className="w-full flex p-4 justify-between items-center text-left">
                       <div className="flex space-x-4 items-center">
-                        <img
-                          src={promotion.image}
-                          alt="deal"
-                          className="w-20 h-20 rounded-lg"
-                        />
+                        <div className="w-20 h-20 rounded-lg">
+                          <img src={promotion.image} alt="deal" className="w-20 h-20 object-contain" />
+                        </div>
                         <div className="flex flex-col items-start	space-y-1 pr-4">
                           <Badge variant="outlined">
                             {promotion.discountType === "percentage"

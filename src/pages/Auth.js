@@ -9,6 +9,7 @@ import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 import { OldAuth } from "./old/Auth";
 import { Badge } from "../components/ui/badge";
+import { getCategoryName } from '../utils';
 
 const RequestType = {
   Auth: "auth",
@@ -259,7 +260,7 @@ export const Auth = () => {
                       <span>${purchaseData.finalUnitPrice}</span>
                       <div className="flex space-x-1">
                         <Badge variant="outlined">
-                          {purchaseData.item.category}
+                          {getCategoryName(purchaseData.item.category)}
                         </Badge>
                       </div>
                     </div>
